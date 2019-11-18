@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -147,6 +148,8 @@ int task4()
 }
 */
 
+/* Задание 5
+ *
 int main()
 {
 	double xs, xe, dx, e, row;
@@ -185,3 +188,72 @@ int main()
 	}
 	return 0;
 }
+*/
+
+/* Задание 6
+ *
+int task_6()
+{
+	int m,n,r;
+	cout<<"Input m: "<<endl;
+	cin>>m;
+	cout<<"Input n: "<<endl;
+	cin>>n;
+	while(n!=0)
+	{
+		r=m%n;
+		m=n;
+		n=r;
+	}
+	cout<<"GCD is "<<m;
+}
+*/
+
+/* Задание 7
+ *
+int task_7()
+{
+	int numbers = 0;
+	for(int i=7;i>2;i--)
+	{
+		numbers+=1;
+		for(int j=0;j<numbers;j++)
+		{
+			cout<<i;
+		}
+		cout<<endl;
+	}
+}
+*/
+/* Задание 8
+ *
+int task_8()
+{
+	int a, b, count = 0;
+	cout<<"Input A: "<<endl;
+	cin>>a;
+	cout<<"Input B: "<<endl;
+	cin>>b;
+	for(a;a<=b;a++)
+	{
+		string str = to_string(a);
+		int sum = 0;
+		for(char chr : str)
+		{
+			if ( chr!='-'){
+			int number = (int)chr - 48;
+			sum+=number;
+			}
+		}
+		if (sum == 0) continue;
+		else
+		{
+			if (a % sum == 0)
+			{
+				count++;
+				cout<<a<<endl;
+			}
+		}
+	}
+}
+*/
