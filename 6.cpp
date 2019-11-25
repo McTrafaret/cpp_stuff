@@ -126,17 +126,41 @@ int task_16()
 	return 0;
 }
 
+
 int task_19()
 {
-	cout<<"Input the coordinates of the point #1"<<endl;
-	cin>>x1>>y1;
-	cout<<"Input the coordinates of the point #2"<<endl;
-	cin>>x2>>y2;
-	cout<<"Input the coordinates of the point #3"<<endl;
-	cin>>x3>>y3;
-	len1 = segment_len(0, 0, x1, y1);
-	len2 = segment_len(0, 0, x2, y2);
-	len3 = segment_len(0, 0, x3, y3);
+	const int num_of_dots = 4;
+	double x[num_of_dots], y[num_of_dots];
+	int counter = 0;
+	
+	for (int i = 0; i < num_of_dots; ++i)
+	{
+		cout « "#" « i + 1 « endl;
+		cout « "x" « i + 1 « ": ";
+		cin » x[i];
+		cout « "\ty" « i + 1 « ": ";
+		cin » y[i];
+	}
+	
+	int a, b, c;
+	
+	for (int i = 0; i < n - 2; i++)
+	{
+		for (int j = i + 1; j < n - 1; j++)
+		{
+			for (int k = j + 1; k < n; k++)
+			{	
+
+				a = segment_len(x[i], y[i], x[j], y[j]);
+				b = segment_len(x[j], y[j], x[k], y[k]);
+				c = segment_len(x[i], y[i], x[k], y[k]);
+				counter+=triangle(a,b,c);
+			}
+		}
+	}
+
+cout « "Number of triangles: " « count « endl;
+return 0;
 }
 
 double f_1(double x, double a, double b)
