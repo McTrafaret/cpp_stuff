@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <ctime>
 
 using namespace std;
 
@@ -73,17 +74,17 @@ void worker::input_worker()
 {
 	cout<<"Input number:"<<endl; cin>>number;
 	cout<<"Input name:"<<endl; cin.ignore(); getline(cin, name);
-	cout<<"Input position:"<<endl; cin.ignore(); getline(cin, position);
+	cout<<"Input position:"<<endl; getline(cin, position);
 	cout<<"Input year:"<<endl; cin>>year;
 	cout<<"Input salary:"<<endl; cin>>salary;
 }
 
 void swap(worker & a, worker & b)
 {
-	worker temp = new worker;
-	temp = a;
+	worker * temp = new worker;
+	*temp = a;
 	a = b;
-	b = temp;
+	b = *temp;
 	delete temp;
 }
 
@@ -224,25 +225,152 @@ void workers_table(worker * array, int size)
 	cout<<endl;
 }
 
-worker search(int number, worker * array, int size)
+worker * search(int number, worker * array, int size)
 {
 	for(int i = 0;i < size;i++)
 	{
 		if(array[i].number == number)
 		{
-			return array[i];
+			return &array[i];
 		}
 	}
 }
 
-int main()
+void work_experience(int exp/* in years */, worker * array, int size)
+{
+	time_t t = time(NULL);
+	tm * t_ptr = localtime(&t);
+	int curr_year = 1900 + t_ptr->tm_year;
+
+	bool any = false;
+	for(int i = 0;i < size;i++)
+	{
+		if((curr_year - array[i].year) > exp)
+		{
+			any = true;
+			cout << array[i].name << endl;
+		}
+	}
+
+	if(!any)
+	{
+		cout << "No workers found" << endl;
+	}
+}
+
+void change_info(int number, worker * array, int size)
+{
+	worker * to_chg = search(number, array, size);
+	to_chg->input_worker();
+}
+
+void context_menu()
 {
 	int size;
-	cout<<"Input workers quantity: "; cin>>size;
-	worker * group = new worker[size];
-	input_array(group, size);
-	alphabetic_sort(group, size);
-	workers_table(group, size);
-	delete [] group;
+	string command;
+	bool exit = false;
+	bool array_exists = false;
+	int number;
+	worker * group;
+
+	do
+	{
+		cout << ">>";
+		cin >> command;
+		if(command == "input_array")
+		{
+			cout << "Input the size of an array: ";
+			cin >> size;
+			group = new worker[size];
+			input_array(group, size);
+			array_exists = true;
+		}
+		else if(command == "table")
+		{
+			if(array_exists)
+			{
+				workers_table(group, size);
+			}
+			else
+			{
+				cout << "Array not found, try creating one by calling 'input_array'" << endl;
+			}
+		}
+		else if(command == "alphabetic_sort")
+		{
+			if(array_exists)
+			{
+				alphabetic_sort(group, size);
+				cout << "Array is sorted alphabetically" << endl;
+			}
+			else
+			{
+				cout << "Array not found, try creating one by calling 'input_array'" << endl;
+			}
+		}
+		else if(command == "search")
+		{
+			if(array_exists)
+			{
+				cin >> number;
+				search(number, group, size);
+			}
+			else
+			{
+				cout << "Array not found, try creating one by calling 'input_array'" << endl;
+			}
+		}
+		else if(command == "exp")
+		{
+			if(array_exists)
+			{
+				cin >> number;
+				work_experience(number, group, size);
+			}
+			else
+			{
+				cout << "Array not found, try creating one by calling 'input_array'" << endl;
+			}
+		}
+		else if(command == "chg")
+		{
+			if(array_exists)
+			{
+				cin >> number;
+				change_info(number, group, size);
+			}
+			else
+			{
+				cout << "Array not found, try creating one by calling 'input_array'" << endl;
+			}
+		}
+		else if(command == "exit")
+		{
+			exit = true;
+		}
+		else
+		{
+			cout << "Command not found" << endl;
+		}
+	}
+	while(!exit);
+
+	if(array_exists)
+	{
+		delete [] group;
+	}
+	else delete group;
+}
+
+int main()
+{
+	context_menu();
+	//int size;
+	//cout<<"Input workers quantity: "; cin>>size;
+	//worker * group = new worker[size];
+	//input_array(group, size);
+	//alphabetic_sort(group, size);
+	//workers_table(group, size);
+	//delete [] group;
 	return 0;
 }
