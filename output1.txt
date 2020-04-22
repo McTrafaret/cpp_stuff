@@ -1,0 +1,11 @@
+I	1	1
+like	2	4
+to	3	2
+test	4	4
+such	5	4
+things	6	6
+because	7	7
+it	8	2
+is	9	2
+so	10	2
+fun	11	3
